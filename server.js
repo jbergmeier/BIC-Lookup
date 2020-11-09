@@ -7,7 +7,7 @@ const app = express()
 const port = 3333 || process.env.PORT
 
 // Routes
-let bicLookup = require('./routes/bicLookup');
+const bicLookup = require('./routes/bicLookup');
 app.use('/getBic', bicLookup);
 
 
@@ -17,11 +17,13 @@ app.use((err, req, res, next) => {
   
     res.status(500).json({
       message: 'An error has occured!',
-      error: 'hello',
+      error: 'error',
       stack: process.env.NODE_ENV == 'development' ? err.stack : 'n/a',
     });
   });
 
+
+  
 // Starts Server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)

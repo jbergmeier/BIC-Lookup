@@ -4,6 +4,7 @@ This tool provides a valid BIC to an IBAN
 ## Supported Countries
 Right now the follwing Countries are supported
 - DE (Germany)
+- AT (Austria)
 
 ## Endpoints
 #### GET /getBic/:iban

@@ -11,8 +11,25 @@ router.get('/:iban', function (req, res, next) {
     iban = iban.split(" "). join("")
     let bankCode = ''
     let bankSearchResult = ''
-console.log(iban)
-    
+
+    const sendResponse = (message, error) => {
+      if(message) {
+        res.status(200).json({
+          iban: message.iban,
+          bankCode: message.bankCode,
+          bic: message.bic,
+          bankName: message.bankName,
+          country: message.country,
+          responseCode: '200'
+        })
+      }
+      else {
+        res.status(400).json({
+          message: error.message,
+          reponseCode: '400.101'
+        })
+      }
+    }
 
     try {
         switch (countryCode){
@@ -26,14 +43,13 @@ console.log(iban)
               bankSearchResult = bankCodes.filter(it => it.bankCode === bankCode)
               if(bankSearchResult == '') res.json({message: 'BIC not found for used IBAN', iban, bankCode, responseCode: '200.102'})
                 console.log(bankSearchResult)
-              res.status(200).json({
+              sendResponse({
                 iban,
                 bankCode,
                 bic: bankSearchResult[0].bic,
                 bankName: bankSearchResult[0].description,
                 country: countryCode,
-                responseCode: '200'
-              })
+              }, '')
                 
               break;
 
@@ -58,13 +74,17 @@ console.log(iban)
                 
               break;
 
-              default:
-                res.json({message: 'No Valid Iban for allowed countries (DE, AT)'})
+            default:
+              //res.json({message: 'No Valid Iban for allowed countries (DE, AT)'})
+              sendResponse('', {message: 'No Valid Iban for allowed countries (DE, AT)'})
           }
+
+        
     } catch (err) {
         next(err)
     }
 })
 
-
 module.exports = router;
+
+

@@ -5,6 +5,7 @@ const bankCodes = require('../data/bankCode_initial.json')
 // Routes 
 router.get('/:iban', function (req, res, next) {
     let iban = req.params.iban
+    iban = iban.toUpperCase()
     countryCode = iban.substring(0,2) 
     const ibanLength = iban.length
 

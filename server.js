@@ -1,10 +1,13 @@
 const express = require("express")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
+const cors = require("cors")
 require("dotenv").config()
 
 const app = express()
 const port = 3333 || process.env.PORT
+
+app.use(cors())
 
 // Routes
 const bicLookup = require('./routes/bicLookup');
